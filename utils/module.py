@@ -19,6 +19,15 @@ from torch.nn.utils.rnn import pad_packed_sequence
 class ModelManager(nn.Module):
 
     def __init__(self, args, num_word, num_slot, num_intent):
+        """
+        Initialize embedding.
+
+        Args:
+            self: (todo): write your description
+            num_word: (int): write your description
+            num_slot: (int): write your description
+            num_intent: (int): write your description
+        """
         super(ModelManager, self).__init__()
 
         self.__num_word = num_word
@@ -92,6 +101,17 @@ class ModelManager(nn.Module):
         print('\nEnd of parameters show. Now training begins.\n\n')
 
     def forward(self, text, seq_lens, n_predicts=None, forced_slot=None, forced_intent=None):
+        """
+        Forward function.
+
+        Args:
+            self: (todo): write your description
+            text: (str): write your description
+            seq_lens: (todo): write your description
+            n_predicts: (int): write your description
+            forced_slot: (todo): write your description
+            forced_intent: (bool): write your description
+        """
         word_tensor, _ = self.__embedding(text)
 
         lstm_hiddens = self.__encoder(word_tensor, seq_lens)
@@ -125,6 +145,16 @@ class ModelManager(nn.Module):
             return slot_index.cpu().data.numpy().tolist(), intent_index.cpu().data.numpy().tolist()
 
     def golden_intent_predict_slot(self, text, seq_lens, golden_intent, n_predicts=1):
+        """
+        Parameters ---------- text : str text for the given text.
+
+        Args:
+            self: (todo): write your description
+            text: (str): write your description
+            seq_lens: (str): write your description
+            golden_intent: (todo): write your description
+            n_predicts: (int): write your description
+        """
         word_tensor, _ = self.__embedding(text)
         embed_intent = self.__intent_embedding(golden_intent)
 
@@ -147,6 +177,15 @@ class EmbeddingCollection(nn.Module):
     """
 
     def __init__(self, input_dim, embedding_dim, max_len=5000):
+        """
+        Initialize the layer.
+
+        Args:
+            self: (todo): write your description
+            input_dim: (int): write your description
+            embedding_dim: (int): write your description
+            max_len: (int): write your description
+        """
         super(EmbeddingCollection, self).__init__()
 
         self.__input_dim = input_dim
@@ -173,6 +212,13 @@ class EmbeddingCollection(nn.Module):
         # self.register_buffer('pe', self.__position_layer)
 
     def forward(self, input_x):
+        """
+        Parameters ---------- input_x : np.
+
+        Args:
+            self: (todo): write your description
+            input_x: (todo): write your description
+        """
         # Get word vector encoding.
         embedding_x = self.__embedding_layer(input_x)
 
@@ -189,6 +235,15 @@ class LSTMEncoder(nn.Module):
     """
 
     def __init__(self, embedding_dim, hidden_dim, dropout_rate):
+        """
+        Parameters ---------- targets.
+
+        Args:
+            self: (todo): write your description
+            embedding_dim: (int): write your description
+            hidden_dim: (int): write your description
+            dropout_rate: (float): write your description
+        """
         super(LSTMEncoder, self).__init__()
 
         # Parameter recording.
@@ -370,6 +425,18 @@ class QKVAttention(nn.Module):
     """
 
     def __init__(self, query_dim, key_dim, value_dim, hidden_dim, output_dim, dropout_rate):
+        """
+        Initialize the network.
+
+        Args:
+            self: (todo): write your description
+            query_dim: (int): write your description
+            key_dim: (str): write your description
+            value_dim: (int): write your description
+            hidden_dim: (int): write your description
+            output_dim: (int): write your description
+            dropout_rate: (float): write your description
+        """
         super(QKVAttention, self).__init__()
 
         # Record hyper-parameters.
@@ -416,6 +483,16 @@ class QKVAttention(nn.Module):
 class SelfAttention(nn.Module):
 
     def __init__(self, input_dim, hidden_dim, output_dim, dropout_rate):
+        """
+        Initialize the network.
+
+        Args:
+            self: (todo): write your description
+            input_dim: (int): write your description
+            hidden_dim: (int): write your description
+            output_dim: (int): write your description
+            dropout_rate: (float): write your description
+        """
         super(SelfAttention, self).__init__()
 
         # Record parameters.
@@ -432,6 +509,14 @@ class SelfAttention(nn.Module):
         )
 
     def forward(self, input_x, seq_lens):
+        """
+        Forward computation.
+
+        Args:
+            self: (todo): write your description
+            input_x: (todo): write your description
+            seq_lens: (todo): write your description
+        """
         dropout_x = self.__dropout_layer(input_x)
         attention_x = self.__attention_layer(
             dropout_x, dropout_x, dropout_x

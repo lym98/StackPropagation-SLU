@@ -27,6 +27,15 @@ from utils import miulab
 class Processor(object):
 
     def __init__(self, dataset, model, batch_size):
+        """
+        Initialize the model.
+
+        Args:
+            self: (todo): write your description
+            dataset: (todo): write your description
+            model: (todo): write your description
+            batch_size: (int): write your description
+        """
         self.__dataset = dataset
         self.__model = model
         self.__batch_size = batch_size
@@ -45,6 +54,12 @@ class Processor(object):
         )
 
     def train(self):
+        """
+        Train the model.
+
+        Args:
+            self: (todo): write your description
+        """
         best_dev_slot = 0.0
         best_dev_intent = 0.0
         best_dev_sent = 0.0
@@ -215,6 +230,15 @@ class Processor(object):
 
     @staticmethod
     def prediction(model, dataset, mode, batch_size):
+        """
+        Evaluate a model.
+
+        Args:
+            model: (todo): write your description
+            dataset: (todo): write your description
+            mode: (todo): write your description
+            batch_size: (int): write your description
+        """
         model.eval()
 
         if mode == "dev":
@@ -361,6 +385,12 @@ class Evaluator(object):
 
     @staticmethod
     def max_freq_predict(sample):
+        """
+        Predict the maximum frequency of each sample.
+
+        Args:
+            sample: (array): write your description
+        """
         predict = []
         for items in sample:
             predict.append(Counter(items).most_common(1)[0][0])
@@ -368,6 +398,13 @@ class Evaluator(object):
 
     @staticmethod
     def exp_decay_predict(sample, decay_rate=0.8):
+        """
+        Exp_predict ( sample sample.
+
+        Args:
+            sample: (todo): write your description
+            decay_rate: (todo): write your description
+        """
         predict = []
         for items in sample:
             item_dict = {}
@@ -380,6 +417,12 @@ class Evaluator(object):
 
     @staticmethod
     def expand_list(nested_list):
+        """
+        Expand a nested list.
+
+        Args:
+            nested_list: (list): write your description
+        """
         for item in nested_list:
             if isinstance(item, (list, tuple)):
                 for sub_item in Evaluator.expand_list(item):
@@ -389,6 +432,13 @@ class Evaluator(object):
 
     @staticmethod
     def nested_list(items, seq_lens):
+        """
+        Return a list of items from a list.
+
+        Args:
+            items: (todo): write your description
+            seq_lens: (todo): write your description
+        """
         num_items = len(items)
         trans_items = [[] for _ in range(0, num_items)]
 
