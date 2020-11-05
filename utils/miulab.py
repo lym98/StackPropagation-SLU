@@ -7,6 +7,16 @@ Copy file (including metric) from MiuLab:
 
 # compute f1 score is modified from conlleval.pl
 def __startOfChunk(prevTag, tag, prevTagType, tagType, chunkStart=False):
+    """
+    Check if a start tag.
+
+    Args:
+        prevTag: (str): write your description
+        tag: (str): write your description
+        prevTagType: (str): write your description
+        tagType: (str): write your description
+        chunkStart: (int): write your description
+    """
 	if prevTag == 'B' and tag == 'B':
 		chunkStart = True
 	if prevTag == 'I' and tag == 'B':
@@ -31,6 +41,16 @@ def __startOfChunk(prevTag, tag, prevTagType, tagType, chunkStart=False):
 
 
 def __endOfChunk(prevTag, tag, prevTagType, tagType, chunkEnd=False):
+    """
+    Return true if the end of the end of the given tag.
+
+    Args:
+        prevTag: (str): write your description
+        tag: (str): write your description
+        prevTagType: (str): write your description
+        tagType: (str): write your description
+        chunkEnd: (str): write your description
+    """
 	if prevTag == 'B' and tag == 'B':
 		chunkEnd = True
 	if prevTag == 'B' and tag == 'O':
@@ -55,6 +75,12 @@ def __endOfChunk(prevTag, tag, prevTagType, tagType, chunkEnd=False):
 
 
 def __splitTagType(tag):
+    """
+    Splits a tag into a tag tag.
+
+    Args:
+        tag: (str): write your description
+    """
 	s = tag.split('-')
 	if len(s) > 2 or len(s) == 0:
 		raise ValueError('tag format wrong. it must be B-xxx.xxx')
@@ -68,6 +94,13 @@ def __splitTagType(tag):
 
 
 def computeF1Score(correct_slots, pred_slots):
+    """
+    Given a list of the next token for each of the given list of the given list of instances.
+
+    Args:
+        correct_slots: (todo): write your description
+        pred_slots: (todo): write your description
+    """
 	correctChunk = {}
 	correctChunkCnt = 0.0
 	foundCorrect = {}

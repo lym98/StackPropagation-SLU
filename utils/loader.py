@@ -24,6 +24,15 @@ class Alphabet(object):
     """
 
     def __init__(self, name, if_use_pad, if_use_unk):
+        """
+        Initialize the instance.
+
+        Args:
+            self: (todo): write your description
+            name: (str): write your description
+            if_use_pad: (str): write your description
+            if_use_unk: (bool): write your description
+        """
 
         self.__name = name
         self.__if_use_pad = if_use_pad
@@ -45,6 +54,12 @@ class Alphabet(object):
 
     @property
     def name(self):
+        """
+        The name of the name
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__name
 
     def add_instance(self, instance):
@@ -144,9 +159,21 @@ class Alphabet(object):
                 fw.write(element + '\t' + str(index) + '\n')
 
     def __len__(self):
+        """
+        Returns the number of bytes in - place.
+
+        Args:
+            self: (todo): write your description
+        """
         return len(self.__index2instance)
 
     def __str__(self):
+        """
+        Str : str : index.
+
+        Args:
+            self: (todo): write your description
+        """
         return 'Alphabet {} contains about {} words: \n\t{}'.format(self.name, len(self), self.__index2instance)
 
 
@@ -157,14 +184,36 @@ class TorchDataset(Dataset):
     """
 
     def __init__(self, text, slot, intent):
+        """
+        Initialize the slot.
+
+        Args:
+            self: (todo): write your description
+            text: (str): write your description
+            slot: (todo): write your description
+            intent: (todo): write your description
+        """
         self.__text = text
         self.__slot = slot
         self.__intent = intent
 
     def __getitem__(self, index):
+        """
+        Return the item at the given index.
+
+        Args:
+            self: (todo): write your description
+            index: (int): write your description
+        """
         return self.__text[index], self.__slot[index], self.__intent[index]
 
     def __len__(self):
+        """
+        Returns the length of the text.
+
+        Args:
+            self: (todo): write your description
+        """
         # Pre-check to avoid bug.
         assert len(self.__text) == len(self.__slot)
         assert len(self.__text) == len(self.__intent)
@@ -175,6 +224,12 @@ class TorchDataset(Dataset):
 class DatasetManager(object):
 
     def __init__(self, args):
+        """
+        Initialize the arguments
+
+        Args:
+            self: (todo): write your description
+        """
 
         # Instantiate alphabet objects.
         self.__word_alphabet = Alphabet('word', if_use_pad=True, if_use_unk=True)
@@ -195,46 +250,112 @@ class DatasetManager(object):
 
     @property
     def test_sentence(self):
+        """
+        Returns the sentence.
+
+        Args:
+            self: (todo): write your description
+        """
         return deepcopy(self.__text_word_data['test'])
 
     @property
     def word_alphabet(self):
+        """
+        Returns the alphabet alphabet : class : attr : alphabet.
+
+        Args:
+            self: (todo): write your description
+        """
         return deepcopy(self.__word_alphabet)
 
     @property
     def slot_alphabet(self):
+        """
+        Returns a copy of the alphabetical alphabet.
+
+        Args:
+            self: (todo): write your description
+        """
         return deepcopy(self.__slot_alphabet)
 
     @property
     def intent_alphabet(self):
+        """
+        Returns a new alphabet.
+
+        Args:
+            self: (todo): write your description
+        """
         return deepcopy(self.__intent_alphabet)
 
     @property
     def num_epoch(self):
+        """
+        Return the number of epoch.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.num_epoch
 
     @property
     def batch_size(self):
+        """
+        Returns the number of records.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.batch_size
 
     @property
     def learning_rate(self):
+        """
+        Return the learning rate.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.learning_rate
 
     @property
     def l2_penalty(self):
+        """
+        The l2 l2 l2 l2 l2 shape.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.l2_penalty
 
     @property
     def save_dir(self):
+        """
+        Save the current directory. dir.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.save_dir
 
     @property
     def intent_forcing_rate(self):
+        """
+        Return the : class rate.
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.intent_forcing_rate
 
     @property
     def slot_forcing_rate(self):
+        """
+        Return the number of the best ).
+
+        Args:
+            self: (todo): write your description
+        """
         return self.__args.slot_forcing_rate
 
     def show_summary(self):
@@ -298,6 +419,15 @@ class DatasetManager(object):
                    self.__text_intent_data[data_name]
 
     def add_file(self, file_path, data_name, if_train_file):
+        """
+        Add a file asynchronously.
+
+        Args:
+            self: (str): write your description
+            file_path: (str): write your description
+            data_name: (str): write your description
+            if_train_file: (str): write your description
+        """
         text, slot, intent = self.__read_file(file_path)
 
         if if_train_file:
@@ -346,6 +476,16 @@ class DatasetManager(object):
         return texts, slots, intents
 
     def batch_delivery(self, data_name, batch_size=None, is_digital=True, shuffle=True):
+        """
+        Batch a batch of a data.
+
+        Args:
+            self: (todo): write your description
+            data_name: (str): write your description
+            batch_size: (int): write your description
+            is_digital: (bool): write your description
+            shuffle: (bool): write your description
+        """
         if batch_size is None:
             batch_size = self.batch_size
 
@@ -363,6 +503,14 @@ class DatasetManager(object):
 
     @staticmethod
     def add_padding(texts, items=None, digital=True):
+        """
+        Add padding to items
+
+        Args:
+            texts: (str): write your description
+            items: (todo): write your description
+            digital: (todo): write your description
+        """
         len_list = [len(text) for text in texts]
         max_len = max(len_list)
 
